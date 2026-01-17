@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] KeyCode MoveDownKey = KeyCode.DownArrow;
     [SerializeField] KeyCode MoveLeftKey = KeyCode.LeftArrow;
     [SerializeField] KeyCode MoveRightKey = KeyCode.RightArrow;
+    [SerializeField] KeyCode DropBombKey = KeyCode.Space;
 
     private Bomberman bomberman;
 
@@ -31,6 +32,11 @@ public class PlayerController : MonoBehaviour
         } else
         {
             this.bomberman.StopMove();
+        }
+
+        if (Input.GetKeyDown(DropBombKey))
+        {
+            this.bomberman.DropBomb();
         }
     }
 }

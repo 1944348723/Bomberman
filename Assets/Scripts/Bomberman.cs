@@ -23,6 +23,8 @@ public class Bomberman : MonoBehaviour
     [SerializeField] private AnimatedSpriteRenderer downAnimation;
     [SerializeField] private AnimatedSpriteRenderer leftAnimation;
     [SerializeField] private AnimatedSpriteRenderer rightAnimation;
+    [SerializeField] private GameObject bombPrefab;
+    [SerializeField] private Transform bombContainer;
 
     private Mover2D mover;
     private DirectionEnum currentDirection = DirectionEnum.Down;
@@ -31,6 +33,7 @@ public class Bomberman : MonoBehaviour
     void Awake()
     {
         this.mover = GetComponent<Mover2D>();
+
         currentAnimation = downAnimation;
         currentAnimation.enabled = true;
     }
@@ -60,7 +63,8 @@ public class Bomberman : MonoBehaviour
 
     public void DropBomb()
     {
-        
+        GameObject bomb = Instantiate(bombPrefab, bombContainer);
+        bomb.GetComponent<Rigidbody2D>().position = this.transform.position;
     }
 
     private AnimatedSpriteRenderer GetAnimation(DirectionEnum direction)
