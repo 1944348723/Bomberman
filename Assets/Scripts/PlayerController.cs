@@ -18,16 +18,19 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKey(MoveUpKey))
         {
-            this.bomberman.MoveUp();
+            this.bomberman.Move(DirectionEnum.Up);
         } else if (Input.GetKey(MoveDownKey))
         {
-            this.bomberman.MoveDown();
+            this.bomberman.Move(DirectionEnum.Down);
         } else if (Input.GetKey(MoveLeftKey))
         {
-            this.bomberman.MoveLeft();
+            this.bomberman.Move(DirectionEnum.Left);
         } else if (Input.GetKey(MoveRightKey))
         {
-            this.bomberman.MoveRight();
+            this.bomberman.Move(DirectionEnum.Right);
+        } else
+        {
+            this.bomberman.StopMove();
         }
     }
 }
