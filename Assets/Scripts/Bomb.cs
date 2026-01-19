@@ -4,17 +4,19 @@ using UnityEngine;
 public class Bomb : MonoBehaviour
 {
     [SerializeField] float explodeDelayTime = 3f;
+    [SerializeField] GameObject explosionStart;
+    [SerializeField] GameObject explosionMiddle;
+    [SerializeField] GameObject explosionEnd;
+
     private AnimatedSpriteRenderer anim;
 
     void Awake()
     {
         this.anim = GetComponent<AnimatedSpriteRenderer>();
-        Debug.Log(this.anim);
     }
 
     void Start()
     {
-        Debug.Log("Start");
         this.anim.Play();
         StartCoroutine(DelayExplode());
     }
@@ -24,5 +26,10 @@ public class Bomb : MonoBehaviour
         yield return new WaitForSeconds(explodeDelayTime);
 
         Destroy(this.gameObject);
+    }
+
+    private void Explode()
+    {
+
     }
 }

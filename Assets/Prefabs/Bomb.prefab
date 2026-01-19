@@ -182,3 +182,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1638b44e7ebdc084fb06f772b4ad8355, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  explodeDelayTime: 3
+  explosionStart: {fileID: 0}
+  explosionMiddle: {fileID: 0}
+  explosionEnd: {fileID: 0}
+  explosion: {fileID: 9016078609382308074, guid: 567bdc507565b4047997124930f3082a, type: 3}

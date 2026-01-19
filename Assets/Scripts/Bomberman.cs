@@ -1,3 +1,6 @@
+using System;
+using Unity.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum DirectionEnum { Up, Down, Left, Right };
@@ -64,7 +67,8 @@ public class Bomberman : MonoBehaviour
     public void DropBomb()
     {
         GameObject bomb = Instantiate(bombPrefab, bombContainer);
-        bomb.GetComponent<Rigidbody2D>().position = this.transform.position;
+        Vector2 position = new Vector2(Mathf.Round(this.transform.position.x), Mathf.Round(this.transform.position.y));
+        bomb.GetComponent<Rigidbody2D>().position = position;
     }
 
     private AnimatedSpriteRenderer GetAnimation(DirectionEnum direction)
@@ -77,5 +81,13 @@ public class Bomberman : MonoBehaviour
             case DirectionEnum.Right: return rightAnimation;
         }
         return downAnimation;
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == 3)
+        {
+            Destroy(this.gameObject);
+        }
     }
 }
