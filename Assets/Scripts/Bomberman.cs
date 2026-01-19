@@ -1,6 +1,3 @@
-using System;
-using Unity.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public enum DirectionEnum { Up, Down, Left, Right };
@@ -27,7 +24,6 @@ public class Bomberman : MonoBehaviour
     [SerializeField] private AnimatedSpriteRenderer leftAnimation;
     [SerializeField] private AnimatedSpriteRenderer rightAnimation;
     [SerializeField] private GameObject bombPrefab;
-    [SerializeField] private Transform bombContainer;
 
     private Mover2D mover;
     private DirectionEnum currentDirection = DirectionEnum.Down;
@@ -66,7 +62,7 @@ public class Bomberman : MonoBehaviour
 
     public void DropBomb()
     {
-        GameObject bomb = Instantiate(bombPrefab, bombContainer);
+        GameObject bomb = Instantiate(bombPrefab, GameManager.Instance.bombsContainer);
         Vector2 position = new Vector2(Mathf.Round(this.transform.position.x), Mathf.Round(this.transform.position.y));
         bomb.GetComponent<Rigidbody2D>().position = position;
     }

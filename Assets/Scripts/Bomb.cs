@@ -1,5 +1,7 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Tilemaps;
+using UnityEngine.UIElements;
 
 public class Bomb : MonoBehaviour
 {
@@ -25,11 +27,14 @@ public class Bomb : MonoBehaviour
     {
         yield return new WaitForSeconds(explodeDelayTime);
 
+        Explode();
         Destroy(this.gameObject);
     }
 
     private void Explode()
     {
-
+        var explosionsContainer = GameManager.Instance.ExplosionsContainer;
+        var cellPos = GameManager.Instance.indestructibles.WorldToCell(this.transform.position);
+        Debug.Log(cellPos);
     }
 }
