@@ -13,6 +13,7 @@ public class AnimatedSpriteRenderer : MonoBehaviour
     private int nextFrameIndex = 0;
     private float timer = 0;
     private bool playing = false;
+    private bool stopAtNextFrame = false;
 
     void Awake()
     {
@@ -40,6 +41,11 @@ public class AnimatedSpriteRenderer : MonoBehaviour
     void Update()
     {
         if (!playing) return;
+        if (stopAtNextFrame) {
+            Stop();
+            stopAtNextFrame = false;
+            return;
+        }
 
         timer += Time.deltaTime;
         if (timer >= frameDuration)
@@ -49,10 +55,7 @@ public class AnimatedSpriteRenderer : MonoBehaviour
             if (isLastFrame)
             {
                 nextFrameIndex = 0;
-                if (!loop)
-                {
-                    Stop();
-                }
+                if (!loop) stopAtNextFrame = true;
             }
         }
     }

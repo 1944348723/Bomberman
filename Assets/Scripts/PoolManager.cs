@@ -38,4 +38,14 @@ public class PoolManager : MonoBehaviour
             pools.Add(config.name, pool);
         }
     }
+
+    public GameObject Get(string name)
+    {
+        if (!pools.ContainsKey(name)) {
+            Debug.LogError($"Pool {name} not found");
+            return null;
+        }
+
+        return pools[name].Get();
+    }
 }

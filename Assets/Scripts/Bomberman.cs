@@ -39,9 +39,6 @@ public class Bomberman : MonoBehaviour
 
     public void Move(DirectionEnum newDir)
     {
-        // 移动
-        this.mover.SetDirection(newDir.ToVector2());
-
         // 动画
         if (newDir != currentDirection || !mover.IsMoving())
         {
@@ -52,6 +49,9 @@ public class Bomberman : MonoBehaviour
             this.currentAnimation.enabled = true;
             this.currentAnimation.Play();
         }
+
+        // 移动
+        this.mover.SetDirection(newDir.ToVector2());
     }
 
     public void StopMove()
@@ -65,6 +65,7 @@ public class Bomberman : MonoBehaviour
         GameObject bomb = Instantiate(bombPrefab, GameManager.Instance.bombsContainer);
         Vector2 position = new Vector2(Mathf.Round(this.transform.position.x), Mathf.Round(this.transform.position.y));
         bomb.GetComponent<Rigidbody2D>().position = position;
+        bomb.transform.position = position;
     }
 
     private AnimatedSpriteRenderer GetAnimation(DirectionEnum direction)
