@@ -1,20 +1,27 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class Bomb : MonoBehaviour
 {
-    [SerializeField] float explodeDelayTime = 3f;
-    [SerializeField] GameObject explosionStartPrefab;
-    [SerializeField] GameObject explosionMiddlePrefab;
-    [SerializeField] GameObject explosionEndPrefab;
-
+    private Transform explosionsContainer;
+    private Tilemap indestructibleWalls;
+    private Tilemap destructibleWalls;
     private AnimatedSpriteRenderer anim;
     private Rigidbody2D rb;
+
+    private float explodeDelayTime = 3f;
+    private int explosionLen = 1;
 
     void Awake()
     {
         this.anim = GetComponent<AnimatedSpriteRenderer>();
         this.rb = GetComponent<Rigidbody2D>();
+        this.explosionsContainer = GameManager.Instance.ExplosionsContainer;
+        this.indestructibleWalls = GameManager.Instance.indestructibles;
+        this.destructibleWalls = GameManager.Instance.destructibles;
     }
 
     void Start()
@@ -33,11 +40,9 @@ public class Bomb : MonoBehaviour
 
     private void Explode()
     {
-        var explosionsContainer = GameManager.Instance.ExplosionsContainer;
-        var indestructibleWalls = GameManager.Instance.indestructibles;
-        var destructibleWalls = GameManager.Instance.destructibles;
 
-        var cellPos = GameManager.Instance.indestructibles.WorldToCell(this.transform.position);
+        var cellPos = indestructibleWalls.WorldToCell(this.transform.position);
+        // 中心
         if (!indestructibleWalls.HasTile(cellPos) && !destructibleWalls.HasTile(cellPos))
         {
             var explosionStart = PoolManager.Instance.Get("ExplosionStart");
@@ -49,6 +54,44 @@ public class Bomb : MonoBehaviour
             // 所以这里直接设置transform.position
             explosionStart.transform.position = this.rb.position;
             // Physics2D.SyncTransforms();             // 手动将Transform的位置同步到物理系统
+        }
+        SpreadExplosion(cellPos, Vector3Int.up, "ExplosionUpMiddle", "ExplosionUpEnd");
+        SpreadExplosion(cellPos, Vector3Int.down, "ExplosionDownMiddle", "ExplosionDownEnd");
+        SpreadExplosion(cellPos, Vector3Int.left, "ExplosionLeftMiddle", "ExplosionLeftEnd");
+        SpreadExplosion(cellPos, Vector3Int.right, "ExplosionRightMiddle", "ExplosionRightEnd");
+    }
+
+    private void SpreadExplosion(Vector3Int cell, Vector3Int direction, string middle, string end)
+    {
+        List<Vector3Int> explosionCells = new();
+        Vector3Int currentCell = new(cell.x, cell.y);
+        currentCell.x += direction.x;
+        currentCell.y += direction.y;
+        
+        for (int i = 0; i < explosionLen; ++i)
+        {
+            if (!indestructibleWalls.HasTile(currentCell) && !destructibleWalls.HasTile(currentCell))
+            {
+                explosionCells.Add(currentCell);
+            }
+            currentCell.x += direction.x;
+            currentCell.y += direction.y;
+        }
+
+        // 生成爆炸火焰
+        for (int i = 0; i < explosionCells.Count; ++i)
+        {
+            if (i == explosionCells.Count - 1)
+            {
+                var explosion = PoolManager.Instance.Get(end);
+                explosion.transform.SetParent(explosionsContainer);
+                explosion.transform.position = indestructibleWalls.GetCellCenterWorld(explosionCells[i]);
+            } else
+            {
+                var explosion = PoolManager.Instance.Get(middle);
+                explosion.transform.SetParent(explosionsContainer);
+                explosion.transform.position = indestructibleWalls.GetCellCenterWorld(explosionCells[i]);
+            }
         }
     }
 }
