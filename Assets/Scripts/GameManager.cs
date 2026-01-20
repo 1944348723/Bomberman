@@ -4,7 +4,8 @@ using UnityEngine.Tilemaps;
 public class GameManager : MonoBehaviour
 {
     public Transform bombsContainer;
-    public Transform ExplosionsContainer;
+    public Transform explosionsContainer;
+    public Transform destructedWallsContainer;
     public Tilemap grass;
     public Tilemap indestructibles;
     public Tilemap destructibles;

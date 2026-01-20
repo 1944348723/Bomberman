@@ -10,6 +10,9 @@ public class AnimatedSpriteRenderer : MonoBehaviour
     [SerializeField] private bool loop = false;
     [SerializeField] private bool playOnEnable = false;
     [SerializeField] private bool destroyOnFinished = false;
+    // TODO: 添加destroy函数的配置，适配对象池
+
+    public event System.Action OnAnimationFinished;
 
     private SpriteRenderer sr;
 
@@ -47,6 +50,7 @@ public class AnimatedSpriteRenderer : MonoBehaviour
         if (finished) {
             Stop();
             finished = false;
+            OnAnimationFinished?.Invoke();
             if (destroyOnFinished) Destroy(gameObject);
             return;
         }

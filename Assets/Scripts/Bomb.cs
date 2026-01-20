@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +6,7 @@ using UnityEngine.Tilemaps;
 public class Bomb : MonoBehaviour
 {
     private Transform explosionsContainer;
+    private Transform DestructedWallsContainer;
     private Tilemap indestructibleWalls;
     private Tilemap destructibleWalls;
     private AnimatedSpriteRenderer anim;
@@ -19,7 +19,8 @@ public class Bomb : MonoBehaviour
     {
         this.anim = GetComponent<AnimatedSpriteRenderer>();
         this.rb = GetComponent<Rigidbody2D>();
-        this.explosionsContainer = GameManager.Instance.ExplosionsContainer;
+        this.explosionsContainer = GameManager.Instance.explosionsContainer;
+        this.DestructedWallsContainer = GameManager.Instance.destructedWallsContainer;
         this.indestructibleWalls = GameManager.Instance.indestructibles;
         this.destructibleWalls = GameManager.Instance.destructibles;
     }
@@ -70,12 +71,20 @@ public class Bomb : MonoBehaviour
         
         for (int i = 0; i < explosionLen; ++i)
         {
-            if (!indestructibleWalls.HasTile(currentCell) && !destructibleWalls.HasTile(currentCell))
+            if (indestructibleWalls.HasTile(currentCell)) break;
+            if (destructibleWalls.HasTile(currentCell))
+            {
+                var destructedWall = PoolManager.Instance.Get("DestructedWall");
+                destructedWall.GetComponent<AnimatedSpriteRenderer>().OnAnimationFinished += () => destructibleWalls.SetTile(currentCell, null);
+                destructedWall.transform.SetParent(DestructedWallsContainer);
+                destructedWall.transform.position = destructibleWalls.GetCellCenterWorld(currentCell);
+                break;
+            } else
             {
                 explosionCells.Add(currentCell);
+                currentCell.x += direction.x;
+                currentCell.y += direction.y;
             }
-            currentCell.x += direction.x;
-            currentCell.y += direction.y;
         }
 
         // 生成爆炸火焰

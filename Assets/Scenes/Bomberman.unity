@@ -292,6 +292,8 @@ MonoBehaviour:
     prefab: {fileID: 1953924717440974471, guid: 6f87c14c8d0d0f146820610a8553ce10, type: 3}
   - name: ExplosionRightEnd
     prefab: {fileID: 8009884768091973922, guid: ddb151c7a17a5c04a88dd96b5bc748bf, type: 3}
+  - name: DestructedWall
+    prefab: {fileID: 3067142598616352894, guid: f943fc6186fc8e847af4c779811229ec, type: 3}
 --- !u!1 &501860872
 GameObject:
   m_ObjectHideFlags: 0
@@ -3066,6 +3068,7 @@ Transform:
   - {fileID: 1051739152}
   - {fileID: 670758394}
   - {fileID: 1182282065}
+  - {fileID: 1256634505}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1051739151
@@ -4070,6 +4073,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 980696500}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1256634504
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1256634505}
+  m_Layer: 0
+  m_Name: DestructedWalls
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1256634505
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1256634504}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 980696500}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1305015454
 GameObject:
   m_ObjectHideFlags: 0
@@ -4265,7 +4299,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bombsContainer: {fileID: 670758394}
-  ExplosionsContainer: {fileID: 1182282065}
+  explosionsContainer: {fileID: 1182282065}
+  destructedWallsContainer: {fileID: 1256634505}
   grass: {fileID: 780968311}
   indestructibles: {fileID: 501860875}
   destructibles: {fileID: 1051739154}
