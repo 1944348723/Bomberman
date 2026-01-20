@@ -111,6 +111,8 @@ MonoBehaviour:
   idleFrame: {fileID: 345756793, guid: 736d53cac5f6a4f41aa15cd7903a8c50, type: 3}
   frameDuration: 0.25
   loop: 0
+  playOnEnable: 1
+  destroyOnFinished: 1
 --- !u!61 &6607098882624775798
 BoxCollider2D:
   m_ObjectHideFlags: 0

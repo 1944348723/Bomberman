@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Assertions;
 
 [RequireComponent(typeof(SpriteRenderer))]
 public class AnimatedSpriteRenderer : MonoBehaviour
@@ -7,13 +8,15 @@ public class AnimatedSpriteRenderer : MonoBehaviour
     [SerializeField] private Sprite idleFrame;
     [SerializeField] private float frameDuration = 0.25f;
     [SerializeField] private bool loop = false;
+    [SerializeField] private bool playOnEnable = false;
+    [SerializeField] private bool destroyOnFinished = false;
 
     private SpriteRenderer sr;
 
     private int nextFrameIndex = 0;
     private float timer = 0;
     private bool playing = false;
-    private bool stopAtNextFrame = false;
+    private bool finished = false;  // 只有正在播放，并且没有播放完才为true
 
     void Awake()
     {
@@ -22,41 +25,42 @@ public class AnimatedSpriteRenderer : MonoBehaviour
 
     void OnEnable()
     {
-        if (this.sr)
-        {
-            this.sr.enabled = true;
-            this.sr.sprite = idleFrame;
-        }
+        if (!this.sr) return;
+
+        this.sr.enabled = true;
+        this.sr.sprite = idleFrame;
+        if (playOnEnable) this.Play();
     }
 
     void OnDisable()
     {
         if (this.sr)
         {
-            Stop();
             this.sr.enabled = false;
+            Stop();
         }
     }
 
     void Update()
     {
         if (!playing) return;
-        if (stopAtNextFrame) {
+        if (finished) {
             Stop();
-            stopAtNextFrame = false;
+            finished = false;
+            if (destroyOnFinished) Destroy(gameObject);
             return;
         }
 
         timer += Time.deltaTime;
-        if (timer >= frameDuration)
+        while (timer >= frameDuration)
         {
             timer -= frameDuration;
             bool isLastFrame = NextFrame();
-            if (isLastFrame)
-            {
-                nextFrameIndex = 0;
-                if (!loop) stopAtNextFrame = true;
-            }
+            if (!isLastFrame) continue;
+
+            Assert.IsTrue(isLastFrame);
+            nextFrameIndex = 0;
+            if (!loop) finished = true;
         }
     }
 
