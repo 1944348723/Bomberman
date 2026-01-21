@@ -9,6 +9,15 @@ public struct PoolConfig
     public GameObject prefab;
 };
 
+
+/*
+    封装了Unity的对象池，只存储Prefab，对象池中存放的一般也就是Prefab，能满足大多数场景需求
+
+    通过在Inspector中填入池的名字和对应Prefab来配置对象池，后续都是通过此处填入的名字来访问对象池
+
+    在创建对象池的同时在PoolManager所在GameObject下为每一个池都创建了一个GameObject作为该对象池中对象的父节点
+    命名为config.name + "Container"，方便在运行时直观的观察和调试
+*/
 public class PoolManager : MonoBehaviour
 {
     [SerializeField] private PoolConfig[] poolConfigs;
