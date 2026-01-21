@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(DropBombKey))
         {
-            this.bomberman.DropBomb();
+            this.bomberman.TryDropBomb();
         }
     }
 }

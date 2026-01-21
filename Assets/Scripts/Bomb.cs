@@ -5,7 +5,8 @@ using UnityEngine.Tilemaps;
 
 public class Bomb : MonoBehaviour
 {
-    [SerializeField] private string bombPoolName;
+    [SerializeField] private string bombPoolName = "Bomb";
+    [SerializeField] private string bombLayerName = "Bomb";
     private Transform explosionsContainer;
     private Transform DestructedWallsContainer;
     private Tilemap indestructibleWalls;
@@ -14,6 +15,8 @@ public class Bomb : MonoBehaviour
 
     private float explodeDelayTime = 3f;
     private int explosionLen = 1;
+    private Coroutine explodeRoutine;
+    private bool hasExploded = false;
 
     void Awake()
     {
@@ -24,28 +27,33 @@ public class Bomb : MonoBehaviour
         this.destructibleWalls = GameManager.Instance.destructibles;
     }
 
-    void OnEnable()
-    {
-        StartCoroutine(DelayExplode());
-    }
-
     public void Init(float delay, int len)
     {
         if (delay <= 0 || len <= 0) return;
         this.explodeDelayTime = delay;
         this.explosionLen = len;
+        this.hasExploded = false;
+        explodeRoutine = StartCoroutine(DelayExplode());
     }
 
     private IEnumerator DelayExplode()
     {
         yield return new WaitForSeconds(explodeDelayTime);
 
+        this.explodeRoutine = null;
         Explode();
-        PoolManager.Instance.Release(this.bombPoolName, this.gameObject);
     }
 
     private void Explode()
     {
+        if (this.hasExploded) return;
+        this.hasExploded = true;
+        // 定时还没到，是被提前引爆的，取消协程
+        if (explodeRoutine != null)
+        {
+            StopCoroutine(explodeRoutine);
+            this.explodeRoutine = null;
+        }
 
         var cellPos = indestructibleWalls.WorldToCell(this.transform.position);
         // 中心
@@ -65,6 +73,8 @@ public class Bomb : MonoBehaviour
         SpreadExplosion(cellPos, Vector3Int.down, "ExplosionDownMiddle", "ExplosionDownEnd");
         SpreadExplosion(cellPos, Vector3Int.left, "ExplosionLeftMiddle", "ExplosionLeftEnd");
         SpreadExplosion(cellPos, Vector3Int.right, "ExplosionRightMiddle", "ExplosionRightEnd");
+        
+        PoolManager.Instance.Release(this.bombPoolName, this.gameObject);
     }
 
     private void SpreadExplosion(Vector3Int cell, Vector3Int direction, string middle, string end)
@@ -76,6 +86,7 @@ public class Bomb : MonoBehaviour
         
         for (int i = 0; i < explosionLen; ++i)
         {
+            Bomb bomb = null;
             if (indestructibleWalls.HasTile(currentCell)) break;
             if (destructibleWalls.HasTile(currentCell))
             {
@@ -83,6 +94,12 @@ public class Bomb : MonoBehaviour
                 destructedWall.GetComponent<AnimatedSpriteRenderer>().OnAnimationFinished += () => destructibleWalls.SetTile(currentCell, null);
                 destructedWall.transform.SetParent(DestructedWallsContainer);
                 destructedWall.transform.position = destructibleWalls.GetCellCenterWorld(currentCell);
+                break;
+            } else if (bomb = this.TryGetBomb(currentCell))
+            {
+                Debug.Log("Chain Explosion");
+                // 连锁引爆
+                bomb.Explode();
                 break;
             } else
             {
@@ -107,5 +124,14 @@ public class Bomb : MonoBehaviour
                 explosion.transform.position = indestructibleWalls.GetCellCenterWorld(explosionCells[i]);
             }
         }
+    }
+
+    private Bomb TryGetBomb(Vector3Int cell)
+    {
+        Bomb bomb = null;
+        var worldPosition = indestructibleWalls.GetCellCenterWorld(cell);
+        Collider2D hit = Physics2D.OverlapPoint(worldPosition, LayerMask.GetMask(this.bombLayerName));
+        bomb = hit?.GetComponent<Bomb>();
+        return bomb;
     }
 }

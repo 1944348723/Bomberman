@@ -1,4 +1,3 @@
-using System.Linq.Expressions;
 using UnityEngine;
 
 public enum DirectionEnum { Up, Down, Left, Right };
@@ -27,6 +26,7 @@ public class Bomberman : MonoBehaviour
     [SerializeField] private AnimatedSpriteRenderer deathAnimation;
     [SerializeField] private string bombPoolName;
     [SerializeField] private int explosionLayer;
+    [SerializeField] private string bombLayerName = "Bomb";
 
     public event System.Action OnDeath;
     private Mover2D mover;
@@ -66,11 +66,13 @@ public class Bomberman : MonoBehaviour
         this.currentAnimation.Stop();
     }
 
-    public void DropBomb()
+    public void TryDropBomb()
     {
+        Vector2 position = new Vector2(Mathf.Round(this.transform.position.x), Mathf.Round(this.transform.position.y));
+        if (this.HasBomb(position)) return;
+
         GameObject bomb = PoolManager.Instance.Get(this.bombPoolName);
         bomb.transform.SetParent(GameManager.Instance.bombsContainer);
-        Vector2 position = new Vector2(Mathf.Round(this.transform.position.x), Mathf.Round(this.transform.position.y));
         bomb.GetComponent<Rigidbody2D>().position = position;
         bomb.transform.position = position;
         bomb.GetComponent<Bomb>().Init(this.explosionDelay, this.explosionLen);
@@ -104,5 +106,11 @@ public class Bomberman : MonoBehaviour
         {
             this.Die();
         }
+    }
+
+    private bool HasBomb(Vector3 worldPosition)
+    {
+        Collider2D hit = Physics2D.OverlapPoint(worldPosition, LayerMask.GetMask(this.bombLayerName));
+        return hit && hit.GetComponent<Bomb>();
     }
 }
