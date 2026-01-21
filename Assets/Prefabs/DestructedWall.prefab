@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 9113150825780441790}
   - component: {fileID: 219284294633443279}
   - component: {fileID: 5717263142115047706}
-  - component: {fileID: 6116916392199383318}
-  - component: {fileID: 8707868763659086758}
-  - component: {fileID: -9153815869660367749}
+  - component: {fileID: 6921657119339800639}
+  - component: {fileID: 9117026461575863481}
+  - component: {fileID: 3990726129159793897}
   m_Layer: 0
   m_Name: DestructedWall
   m_TagString: Untagged
@@ -108,7 +108,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!212 &6116916392199383318
+--- !u!212 &6921657119339800639
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -148,7 +148,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 0
   m_Sprite: {fileID: 180689393, guid: b72b539abdf5fa94cb65ad8d3977505a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -160,7 +160,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &8707868763659086758
+--- !u!114 &9117026461575863481
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -185,7 +185,7 @@ MonoBehaviour:
   loop: 0
   playOnEnable: 1
   destroyOnFinished: 0
---- !u!114 &-9153815869660367749
+--- !u!114 &3990726129159793897
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

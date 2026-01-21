@@ -6,6 +6,8 @@ public class Bomb : MonoBehaviour
 {
     [SerializeField] private string bombPoolName = "Bomb";
     [SerializeField] private string bombLayerName = "Bomb";
+    [SerializeField] private string explosionPoolName = "Explosion";
+
     private Rigidbody2D rb;
     private CircleCollider2D selfCollider;
 
@@ -51,7 +53,8 @@ public class Bomb : MonoBehaviour
 
         Vector3 roundedPosition = new(Mathf.RoundToInt(this.rb.position.x), Mathf.RoundToInt(this.rb.position.y));
         // 中心
-        var explosionStart = PoolManager.Instance.Get("ExplosionStart");
+        var explosionStart = PoolManager.Instance.Get(this.explosionPoolName);
+        explosionStart.GetComponent<Explosion>().PlayStart();
         // -------------------!!!!!!!!!!!!!!!!!!!!!!--------------------------------------
         // SimulateMode为FixedUpdate时，FixedUpdate之前，会将Transform的位置同步到Rigidbody2D
         // 在FixedUpdate之后，会将Rigidbody2D的位置同步到Transform
@@ -59,17 +62,16 @@ public class Bomb : MonoBehaviour
         // 所以这里直接设置transform.position
         explosionStart.transform.position = roundedPosition;
         // Physics2D.SyncTransforms();             // 手动将Transform的位置同步到物理系
-        SpreadExplosion(roundedPosition, Vector3.up, "ExplosionUpMiddle", "ExplosionUpEnd");
-        SpreadExplosion(roundedPosition, Vector3.down, "ExplosionDownMiddle", "ExplosionDownEnd");
-        SpreadExplosion(roundedPosition, Vector3.left, "ExplosionLeftMiddle", "ExplosionLeftEnd");
-        SpreadExplosion(roundedPosition, Vector3.right, "ExplosionRightMiddle", "ExplosionRightEnd");
+        SpreadExplosion(roundedPosition, Vector3.up);
+        SpreadExplosion(roundedPosition, Vector3.down);
+        SpreadExplosion(roundedPosition, Vector3.left);
+        SpreadExplosion(roundedPosition, Vector3.right);
         
         PoolManager.Instance.Release(this.bombPoolName, this.gameObject);
     }
 
-    private void SpreadExplosion(Vector3 startPosition, Vector3 direction, string middle, string end)
+    private void SpreadExplosion(Vector3 startPosition, Vector3 direction)
     {
-        List<Vector3Int> explosionCells = new();
         Vector3 currentPosition = new(startPosition.x + direction.x, startPosition.y + direction.y);
         
         for (int r = 1; r <= explosionRadius; ++r)
@@ -87,8 +89,17 @@ public class Bomb : MonoBehaviour
                 break;
             } else
             {
-                GameObject explosion = PoolManager.Instance.Get(r == explosionRadius ? end : middle);
+                GameObject explosion = PoolManager.Instance.Get(this.explosionPoolName);
+                var explosionComponent = explosion.GetComponent<Explosion>();
+                explosionComponent.SetDirection(direction);
                 explosion.transform.position = currentPosition;
+                if (r == explosionRadius)
+                {
+                    explosionComponent.PlayEnd();
+                } else
+                {
+                    explosionComponent.PlayMiddle();
+                }
                 currentPosition.x += direction.x;
                 currentPosition.y += direction.y;
             }
