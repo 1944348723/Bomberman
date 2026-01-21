@@ -62,7 +62,8 @@ public class Bomberman : MonoBehaviour
 
     public void DropBomb()
     {
-        GameObject bomb = Instantiate(bombPrefab, GameManager.Instance.bombsContainer);
+        GameObject bomb = PoolManager.Instance.Get("Bomb");
+        bomb.transform.SetParent(GameManager.Instance.bombsContainer);
         Vector2 position = new Vector2(Mathf.Round(this.transform.position.x), Mathf.Round(this.transform.position.y));
         bomb.GetComponent<Rigidbody2D>().position = position;
         bomb.transform.position = position;

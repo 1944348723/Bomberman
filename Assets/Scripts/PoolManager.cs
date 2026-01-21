@@ -34,7 +34,11 @@ public class PoolManager : MonoBehaviour
         if (poolConfigs.Length <= 0) return;
 
         foreach (PoolConfig config in poolConfigs) {
-            ObjectPool<GameObject> pool = new(() => Instantiate(config.prefab));
+            ObjectPool<GameObject> pool = new(
+                createFunc:() => Instantiate(config.prefab),
+                actionOnGet: (obj) => obj.SetActive(true),
+                actionOnRelease: (obj) => obj.SetActive(false)
+            );
             pools.Add(config.name, pool);
         }
     }
@@ -47,5 +51,14 @@ public class PoolManager : MonoBehaviour
         }
 
         return pools[name].Get();
+    }
+
+    public void Release(string name, GameObject obj) {
+        if (!pools.ContainsKey(name)) {
+            Debug.LogError($"Pool {name} not found");
+            return;
+        }
+
+        pools[name].Release(obj);
     }
 }

@@ -9,7 +9,6 @@ public class Bomb : MonoBehaviour
     private Transform DestructedWallsContainer;
     private Tilemap indestructibleWalls;
     private Tilemap destructibleWalls;
-    private AnimatedSpriteRenderer anim;
     private Rigidbody2D rb;
 
     private float explodeDelayTime = 3f;
@@ -17,7 +16,6 @@ public class Bomb : MonoBehaviour
 
     void Awake()
     {
-        this.anim = GetComponent<AnimatedSpriteRenderer>();
         this.rb = GetComponent<Rigidbody2D>();
         this.explosionsContainer = GameManager.Instance.explosionsContainer;
         this.DestructedWallsContainer = GameManager.Instance.destructedWallsContainer;
@@ -27,7 +25,6 @@ public class Bomb : MonoBehaviour
 
     void Start()
     {
-        this.anim.Play();
         StartCoroutine(DelayExplode());
     }
 

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 9113150825780441790}
   - component: {fileID: 6116916392199383318}
   - component: {fileID: 8707868763659086758}
+  - component: {fileID: -9153815869660367749}
   m_Layer: 0
   m_Name: DestructedWall
   m_TagString: Untagged
@@ -109,4 +110,17 @@ MonoBehaviour:
   frameDuration: 0.25
   loop: 0
   playOnEnable: 1
-  destroyOnFinished: 1
+  destroyOnFinished: 0
+--- !u!114 &-9153815869660367749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3067142598616352894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d52b22550309534b9d42e1abf515ed7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolName: DestructedWall

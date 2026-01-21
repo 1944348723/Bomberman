@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5870000685282027473}
   - component: {fileID: 2432348536310280634}
   - component: {fileID: 3375303814443409547}
+  - component: {fileID: -2076916086983070367}
   m_Layer: 3
   m_Name: ExplosionLeftMiddle
   m_TagString: Untagged
@@ -112,7 +113,7 @@ MonoBehaviour:
   frameDuration: 0.25
   loop: 0
   playOnEnable: 1
-  destroyOnFinished: 1
+  destroyOnFinished: 0
 --- !u!61 &2432348536310280634
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -185,3 +186,16 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &-2076916086983070367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 800200839830444706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d52b22550309534b9d42e1abf515ed7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolName: ExplosionLeftMiddle

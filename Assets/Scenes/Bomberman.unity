@@ -294,6 +294,8 @@ MonoBehaviour:
     prefab: {fileID: 8009884768091973922, guid: ddb151c7a17a5c04a88dd96b5bc748bf, type: 3}
   - name: DestructedWall
     prefab: {fileID: 3067142598616352894, guid: f943fc6186fc8e847af4c779811229ec, type: 3}
+  - name: Bomb
+    prefab: {fileID: 1204549947077635795, guid: 0b3103440fd95484595edec03c6beba1, type: 3}
 --- !u!1 &501860872
 GameObject:
   m_ObjectHideFlags: 0

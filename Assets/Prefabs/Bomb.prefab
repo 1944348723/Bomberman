@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2544852248874337371}
   - component: {fileID: 3451478711337160448}
   - component: {fileID: 8648736498998286239}
+  - component: {fileID: 7582240729375752829}
   - component: {fileID: 8094862236963622897}
   m_Layer: 0
   m_Name: Bomb
@@ -170,8 +171,21 @@ MonoBehaviour:
   idleFrame: {fileID: -514961116, guid: fcef7d51b3e817242b02de83692aa4d0, type: 3}
   frameDuration: 0.25
   loop: 1
-  playOnEnable: 0
+  playOnEnable: 1
   destroyOnFinished: 0
+--- !u!114 &7582240729375752829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1204549947077635795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d52b22550309534b9d42e1abf515ed7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolName: Bomb
 --- !u!114 &8094862236963622897
 MonoBehaviour:
   m_ObjectHideFlags: 0
