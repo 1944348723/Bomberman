@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     void Awake()
     {
         this.bomberman = GetComponent<Bomberman>();
+        this.bomberman.OnDeath += () => this.enabled = false;
     }
 
     void Update()
