@@ -32,6 +32,8 @@ public class Bomberman : MonoBehaviour
     private Mover2D mover;
     private DirectionEnum currentDirection = DirectionEnum.Down;
     private AnimatedSpriteRenderer currentAnimation;
+    private float explosionDelay = 3f;
+    private int explosionLen = 1;
 
     void Awake()
     {
@@ -71,6 +73,7 @@ public class Bomberman : MonoBehaviour
         Vector2 position = new Vector2(Mathf.Round(this.transform.position.x), Mathf.Round(this.transform.position.y));
         bomb.GetComponent<Rigidbody2D>().position = position;
         bomb.transform.position = position;
+        bomb.GetComponent<Bomb>().Init(this.explosionDelay, this.explosionLen);
     }
 
     private AnimatedSpriteRenderer GetAnimation(DirectionEnum direction)

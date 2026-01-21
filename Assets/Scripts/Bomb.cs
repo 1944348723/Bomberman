@@ -5,6 +5,7 @@ using UnityEngine.Tilemaps;
 
 public class Bomb : MonoBehaviour
 {
+    [SerializeField] private string bombPoolName;
     private Transform explosionsContainer;
     private Transform DestructedWallsContainer;
     private Tilemap indestructibleWalls;
@@ -23,9 +24,16 @@ public class Bomb : MonoBehaviour
         this.destructibleWalls = GameManager.Instance.destructibles;
     }
 
-    void Start()
+    void OnEnable()
     {
         StartCoroutine(DelayExplode());
+    }
+
+    public void Init(float delay, int len)
+    {
+        if (delay <= 0 || len <= 0) return;
+        this.explodeDelayTime = delay;
+        this.explosionLen = len;
     }
 
     private IEnumerator DelayExplode()
@@ -33,7 +41,7 @@ public class Bomb : MonoBehaviour
         yield return new WaitForSeconds(explodeDelayTime);
 
         Explode();
-        Destroy(this.gameObject);
+        PoolManager.Instance.Release(this.bombPoolName, this.gameObject);
     }
 
     private void Explode()
