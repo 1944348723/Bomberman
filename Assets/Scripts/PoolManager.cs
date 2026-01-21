@@ -12,8 +12,10 @@ public struct PoolConfig
 public class PoolManager : MonoBehaviour
 {
     [SerializeField] private PoolConfig[] poolConfigs;
-    private Dictionary<string, ObjectPool<GameObject>> pools = new();
     public static PoolManager Instance { get; private set; }
+
+    private Dictionary<string, ObjectPool<GameObject>> pools = new();
+    private Dictionary<string, Transform> containers = new();
 
     void Awake()
     {
@@ -35,11 +37,13 @@ public class PoolManager : MonoBehaviour
 
         foreach (PoolConfig config in poolConfigs) {
             ObjectPool<GameObject> pool = new(
-                createFunc:() => Instantiate(config.prefab),
-                actionOnGet: (obj) => obj.SetActive(true),
-                actionOnRelease: (obj) => obj.SetActive(false)
+                createFunc:() => Instantiate(config.prefab)
             );
             pools.Add(config.name, pool);
+
+            GameObject container = new($"{config.name}Container");
+            container.transform.SetParent(transform);
+            containers.Add(config.name, container.transform);
         }
     }
 
@@ -50,7 +54,9 @@ public class PoolManager : MonoBehaviour
             return null;
         }
 
-        return pools[name].Get();
+        var obj = pools[name].Get();
+        obj.SetActive(true);
+        return obj;
     }
 
     public void Release(string name, GameObject obj) {
@@ -59,6 +65,8 @@ public class PoolManager : MonoBehaviour
             return;
         }
 
+        obj.SetActive(false);
+        obj.transform.SetParent(containers[name]);
         pools[name].Release(obj);
     }
 }
