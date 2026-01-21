@@ -81,8 +81,9 @@ public class Bomberman : MonoBehaviour
         return downAnimation;
     }
 
-    void OnTriggerEnter(Collider other)
+    void OnTriggerEnter2D(Collider2D other)
     {
+        Debug.Log("Bombermane OnTriggerEnter");
         if (other.gameObject.layer == 3)
         {
             Destroy(this.gameObject);

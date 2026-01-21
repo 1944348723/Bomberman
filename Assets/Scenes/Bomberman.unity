@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 149326707}
   - component: {fileID: 149326709}
   - component: {fileID: 149326708}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1400,7 +1400,7 @@ GameObject:
   - component: {fileID: 645458070}
   - component: {fileID: 645458072}
   - component: {fileID: 645458071}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Up
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1538,7 +1538,7 @@ GameObject:
   - component: {fileID: 718610700}
   - component: {fileID: 718610701}
   - component: {fileID: 718610702}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Down
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2927,7 +2927,7 @@ GameObject:
   - component: {fileID: 812845341}
   - component: {fileID: 812845343}
   - component: {fileID: 812845342}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4120,7 +4120,7 @@ GameObject:
   - component: {fileID: 1305015456}
   - component: {fileID: 1305015459}
   - component: {fileID: 1305015460}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bomberman
   m_TagString: Untagged
   m_Icon: {fileID: 0}
