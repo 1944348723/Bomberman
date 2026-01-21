@@ -10,7 +10,6 @@ public class AnimatedSpriteRenderer : MonoBehaviour
     [SerializeField] private bool loop = false;
     [SerializeField] private bool playOnEnable = false;
     [SerializeField] private bool destroyOnFinished = false;
-    // TODO: 添加destroy函数的配置，适配对象池
 
     public event System.Action OnAnimationFinished;
 
@@ -19,7 +18,7 @@ public class AnimatedSpriteRenderer : MonoBehaviour
     private int nextFrameIndex = 0;
     private float timer = 0;
     private bool playing = false;
-    private bool finished = false;  // 只有正在播放，并且没有播放完才为true
+    private bool finished = false;  // 只有正在播放，并且没有播放到最后一帧才为true
 
     void Awake()
     {
