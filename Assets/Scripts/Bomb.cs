@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Bomb : MonoBehaviour
@@ -7,6 +6,8 @@ public class Bomb : MonoBehaviour
     [SerializeField] private string bombPoolName = "Bomb";
     [SerializeField] private string bombLayerName = "Bomb";
     [SerializeField] private string explosionPoolName = "Explosion";
+
+    public event System.Action OnBombExploded;
 
     private Rigidbody2D rb;
     private CircleCollider2D selfCollider;
@@ -68,6 +69,7 @@ public class Bomb : MonoBehaviour
         SpreadExplosion(roundedPosition, Vector3.right);
         
         PoolManager.Instance.Release(this.bombPoolName, this.gameObject);
+        this.OnBombExploded?.Invoke();
     }
 
     private void SpreadExplosion(Vector3 startPosition, Vector3 direction)
@@ -80,7 +82,7 @@ public class Bomb : MonoBehaviour
             if (MapManager.Instance.HasIndestructibleWall(currentPosition)) break;
             else if (MapManager.Instance.HasDestructibleWall(currentPosition))
             {
-                MapManager.Instance.SpawnDestructedWall(currentPosition);
+                MapManager.Instance.DestrucWall(currentPosition);
                 break;
             } else if (bomb = this.TryGetBomb(currentPosition))
             {

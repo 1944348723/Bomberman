@@ -8,7 +8,7 @@
 
 
 # 对象池和回收
-本项目中所有会重复创建销毁的对象都进行了池化
+为了同时实现动画播放完后自动销毁和使用对象池，我实现了一个脚本来连接
 
 这些对象都有`AnimatedSpriteRenderer`、`AnimationAutoReleaser`组件，`AnimationAutoReleaser`组件是用来连接`AnimatedSpriteRenderer`和`PoolManager`的。
 

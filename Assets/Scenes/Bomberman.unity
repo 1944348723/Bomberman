@@ -4195,6 +4195,14 @@ MonoBehaviour:
   indestructibleWalls: {fileID: 501860875}
   destructibleWalls: {fileID: 1051739154}
   destructedWallPoolName: DestructedWall
+  items:
+  - item: {fileID: 28103381753460593, guid: 554c091042580ac44a1e0cfe1d7833b3, type: 3}
+    weight: 1
+  - item: {fileID: 7406292670636092671, guid: 18301c2bc04d89146a4016d22d3d36ef, type: 3}
+    weight: 1
+  - item: {fileID: 5011083334639070563, guid: fac27b9ac8d228b429282d97a8cac274, type: 3}
+    weight: 1
+  itemDropRate: 0.1
 --- !u!1 &2066872464
 GameObject:
   m_ObjectHideFlags: 0

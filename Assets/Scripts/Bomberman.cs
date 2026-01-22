@@ -33,7 +33,9 @@ public class Bomberman : MonoBehaviour
     private DirectionEnum currentDirection = DirectionEnum.Down;
     private AnimatedSpriteRenderer currentAnimation;
     private float explosionDelay = 3f;
-    private int explosionLen = 1;
+    private int explosionRadius = 1;
+    private int maxBombCount = 1;
+    private int remainingBombCount = 1;
 
     void Awake()
     {
@@ -69,13 +71,39 @@ public class Bomberman : MonoBehaviour
     public void TryDropBomb()
     {
         Vector2 position = new Vector2(Mathf.Round(this.transform.position.x), Mathf.Round(this.transform.position.y));
-        if (this.HasBomb(position)) return;
+        if (!this.CanDropBomb(position)) return;
 
+        // 创建并初始化炸弹
         GameObject bomb = PoolManager.Instance.Get(this.bombPoolName);
-        bomb.transform.SetParent(GameManager.Instance.bombsContainer);
         bomb.GetComponent<Rigidbody2D>().position = position;
         bomb.transform.position = position;
-        bomb.GetComponent<Bomb>().Init(this.explosionDelay, this.explosionLen);
+        var bombComponent = bomb.GetComponent<Bomb>();
+        bombComponent.Init(this.explosionDelay, this.explosionRadius);
+
+        // 处理剩余炸弹数变化
+        --remainingBombCount;
+        void handler()
+        {
+            ++remainingBombCount;
+            bombComponent.OnBombExploded -= handler;
+        }
+        bombComponent.OnBombExploded += handler;
+    }
+
+    public void AddBomb()
+    {
+        ++maxBombCount;
+        ++remainingBombCount;
+    }
+
+    public void BlastRadius()
+    {
+        ++explosionRadius;
+    }
+
+    public void IncreaseSpeed()
+    {
+        ++this.mover.speed;
     }
 
     private AnimatedSpriteRenderer GetAnimation(DirectionEnum direction)
@@ -112,5 +140,10 @@ public class Bomberman : MonoBehaviour
     {
         Collider2D hit = Physics2D.OverlapPoint(worldPosition, LayerMask.GetMask(this.bombLayerName));
         return hit && hit.GetComponent<Bomb>();
+    }
+    
+    private bool CanDropBomb(Vector3 worldPosition)
+    {
+        return !this.HasBomb(worldPosition) && remainingBombCount > 0;
     }
 }
