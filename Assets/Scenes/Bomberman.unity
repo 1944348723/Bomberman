@@ -4202,7 +4202,7 @@ MonoBehaviour:
     weight: 1
   - item: {fileID: 5011083334639070563, guid: fac27b9ac8d228b429282d97a8cac274, type: 3}
     weight: 1
-  itemDropRate: 0.1
+  itemDropRate: 0.25
 --- !u!1 &2066872464
 GameObject:
   m_ObjectHideFlags: 0

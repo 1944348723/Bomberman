@@ -62,7 +62,7 @@ public class MapManager : MonoBehaviour
         destructedWall.transform.position = worldPosition;
 
         // 生成道具
-        if (Random.Range(0, 1) < this.itemDropRate)
+        if (Random.Range(0, 1f) < this.itemDropRate)
         {
             SpawnRandomItem(worldPosition);
         }
